@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Animal } from './animal.model';
 
 @Component({
   selector: 'app-root',
@@ -6,11 +7,11 @@ import { Component } from '@angular/core';
   <div class="container">
     <h1>Local Zoo Database as of {{month}}/{{day}}/{{year}}</h1>
     <h3>{{currentFocus}}</h3>
-    <ul>
-      <li (click)="upToDate(currentAnimal)" *ngFor="let currentAnimal of animals">{{currentAnimal.name}} <button (click)="updateAnimal(currentAnimal)">Update</button></li>
-    </ul>
+
+    <animal-list [childAnimalList]="masterAnimalList"></animal-list>
+
     <hr>
-      <div>
+      <div *ngIf="selectedAnimal">
         <h3>{{selectedAnimal.name}}</h3>
         <p>Animal Up to date?? {{selectedAnimal.done}}</p>
         <h3>Edit Animal Information</h3>
@@ -31,6 +32,7 @@ import { Component } from '@angular/core';
         <label>Enter Animal Caretakers:</label>
         <input [(ngModel)]="selectedAnimal.caretakers">
         <br>
+        <button (click)="finishedUpdating()">Update</button>
      </div>
   </div>
   `
@@ -42,28 +44,19 @@ export class AppComponent {
   month: number = this.currentTime.getMonth() + 1;
   day: number = this.currentTime.getDate();
   year: number = this.currentTime.getFullYear();
-  animals: Animal[] = [
+  selectedAnimal = null;
+  masterAnimalList: Animal[] = [
     new Animal('Lulu', 'Tiger', 4, 'Female', 'Likes to sunbath', 'Dislikes camera flashes', 'Sun Spot', 3),
     new Animal('Franky', 'Brown Bear', 2, 'Male', 'Likes swimming', 'Dislikes other bears', 'Solidarity', 5),
     new Animal('Puppy', 'Elephant', 7, 'Male', 'Likes chasing birds', 'Dislikes baths', 'Eastern Down Under', 4),
   ];
-  selectedAnimal: Animal = this.animals[0];
 
   updateAnimal(clickedAnimal){
     this.selectedAnimal = clickedAnimal;
     // console.log("its working");
   }
 
-  upToDate(updatedAnimal) {
-    if(updatedAnimal.done === true) {
-      console.log("updated!!!!");
-    } else {
-      console.log("animal is not updated");
-    }
+  finishedUpdating() {
+    this.selectedAnimal = null;
   }
-}
-
-export class Animal {
-  public done: boolean = false;
-  constructor(public name: string, public family: string, public age: number, public sex: string, public likes: string, public dislikes: string, public location: string, public caretakers: number) { }
 }
