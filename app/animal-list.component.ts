@@ -1,17 +1,22 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Animal } from './animal.model';
 
 @Component({
   selector: 'animal-list',
   template: `
   <ul>
-    <li (click)="upToDate(currentAnimal)" *ngFor="let currentAnimal of childAnimalList">{{currentAnimal.name}} <button (click)="updateAnimal(currentAnimal)">Update</button></li>
+    <li (click)="upToDate(currentAnimal)" *ngFor="let currentAnimal of childAnimalList">{{currentAnimal.name}} <button (click)="updateButtonHasBeenClicked(currentAnimal)">Update</button></li>
   </ul>
   `
 })
 
 export class AnimalListComponent {
   @Input() childAnimalList: Animal[];
+  @Output() clickSender = new EventEmitter();
+
+  updateButtonHasBeenClicked(animalToUpdate: Animal) {
+    this.clickSender.emit(animalToUpdate)
+  }
 
   upToDate(updatedAnimal) {
     if(updatedAnimal.done === true) {
