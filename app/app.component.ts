@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
     <h1>Local Zoo Database as of {{month}}/{{day}}/{{year}}</h1>
     <h3>{{currentFocus}}</h3>
     <ul>
-      <li (click)="upToDate(currentAnimal)" *ngFor="let currentAnimal of animals">{{currentAnimal.name}} <button (click)="updateAnimal()">Update</button></li>
+      <li (click)="upToDate(currentAnimal)" *ngFor="let currentAnimal of animals">{{currentAnimal.name}} <button (click)="updateAnimal(currentAnimal)">Update</button></li>
     </ul>
     <hr>
       <div>
@@ -49,8 +49,9 @@ export class AppComponent {
   ];
   selectedAnimal: Animal = this.animals[0];
 
-  updateAnimal(){
-    console.log("its working");
+  updateAnimal(clickedAnimal){
+    this.selectedAnimal = clickedAnimal;
+    // console.log("its working");
   }
 
   upToDate(updatedAnimal) {
