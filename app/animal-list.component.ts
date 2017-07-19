@@ -4,8 +4,17 @@ import { Animal } from './animal.model';
 @Component({
   selector: 'animal-list',
   template: `
+  <select>
+  <option value="allAnimals">All Animals</option>
+    <option value="youngAnimals">Young Animals</option>
+    <option value="oldAnimals">Old Animals</option>
+  </select>
+
+
   <ul>
-    <li (click)="upToDate(currentAnimal)" *ngFor="let currentAnimal of childAnimalList">{{currentAnimal.name}} <button (click)="updateButtonHasBeenClicked(currentAnimal)">Update</button></li>
+    <li *ngFor="let currentAnimal of childAnimalList | animalAge:filterByAge">{{currentAnimal.name}}
+    <button (click)="updateButtonHasBeenClicked(currentAnimal)">Update</button>
+    </li>
   </ul>
   `
 })
@@ -14,15 +23,25 @@ export class AnimalListComponent {
   @Input() childAnimalList: Animal[];
   @Output() clickSender = new EventEmitter();
 
+  filterByAge: string = "allAnimals";
+
+  onChange(optionFromMenu) {
+    this.filterByAge = optionFromMenu;
+  }
+
+  toggleAnimal(clickedAnimal: Animal, setCompleteness: boolean) {
+    clickedAnimal.done = setCompleteness;
+  }
+
   updateButtonHasBeenClicked(animalToUpdate: Animal) {
     this.clickSender.emit(animalToUpdate)
   }
 
-  upToDate(updatedAnimal) {
-    if(updatedAnimal.done === true) {
-      console.log("updated!!!!");
-    } else {
-      console.log("animal is not updated");
-    }
-  }
+  // upToDate(updatedAnimal) {
+  //   if(updatedAnimal.done === true) {
+  //     console.log("updated!!!!");
+  //   } else {
+  //     console.log("animal is not updated");
+  //   }
+  // }
 }
