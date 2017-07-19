@@ -10,7 +10,7 @@ export class AnimalAgePipe implements PipeTransform {
   transform(input: Animal[], desiredAge) {
     var output: Animal[] = [];
     if(desiredAge === "youngAnimals") {
-      for (var i = 0; i >= input.length; i++) {
+      for (var i = 0; i < input.length; i++) {
         if (input[i].age <= 2 ) {
           output.push(input[i]);
         }

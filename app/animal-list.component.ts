@@ -4,7 +4,7 @@ import { Animal } from './animal.model';
 @Component({
   selector: 'animal-list',
   template: `
-  <select>
+  <select (change)="onChange($event.target.value)">
   <option value="allAnimals">All Animals</option>
     <option value="youngAnimals">Young Animals</option>
     <option value="oldAnimals">Old Animals</option>
@@ -36,12 +36,4 @@ export class AnimalListComponent {
   updateButtonHasBeenClicked(animalToUpdate: Animal) {
     this.clickSender.emit(animalToUpdate)
   }
-
-  // upToDate(updatedAnimal) {
-  //   if(updatedAnimal.done === true) {
-  //     console.log("updated!!!!");
-  //   } else {
-  //     console.log("animal is not updated");
-  //   }
-  // }
 }
